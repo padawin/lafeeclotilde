@@ -8,7 +8,7 @@ def create_app():
     app = Flask('lafeeclotilde_admin_web', template_folder='templates')
 
     app.config.update({})
-    app.config.from_envvar('LAFEECLOTILDE_ADMIN_WEB_SETTINGS', silent=True)
+    app.config.from_envvar('LAFEECLOTILDE_ADMIN_SETTINGS', silent=True)
 
     logger = logging.getLogger("{} logger".format(app.name))
     logger.setLevel(logging.DEBUG)
