@@ -9,7 +9,6 @@ setup(name='lafeeclotilde-admin',
       description='lafeeclotilde-admin',
       author='Ghislain Rodrigues',
       license='MIT',
-      packages=['app'],
       install_requires=[
           'flask',
           'tornado'
