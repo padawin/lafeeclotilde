@@ -1,8 +1,9 @@
 loader.executeModule('indexAdminModule',
-'B', (B) => {
+'B', 'config' , (B, config) => {
 	var fileCatcher = document.getElementById('file-catcher');
 	var fileInput = document.getElementById('file-input');
 	var fileListDisplay = document.getElementById('file-list-display');
+	var errorField = document.getElementById('upload-error');
 
 	var fileList = [];
 
@@ -21,6 +22,10 @@ loader.executeModule('indexAdminModule',
 
 	function submitEvent(e) {
 		e.preventDefault();
+		if (!fileList.length) {
+			errorField.innerHTML = "Aucun fichier détecté"
+			return;
+		}
 		fileList.forEach(function (file) {
 			sendFile(file);
 		});
