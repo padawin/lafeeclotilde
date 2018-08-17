@@ -4,9 +4,9 @@
 from setuptools import setup
 
 
-setup(name='lafeeclotilde-web-admin',
+setup(name='lafeeclotilde-admin',
       version='0.0.1',
-      description='lafeeclotilde-web-admin',
+      description='lafeeclotilde-admin',
       author='Ghislain Rodrigues',
       license='MIT',
       packages=['app'],
@@ -16,7 +16,7 @@ setup(name='lafeeclotilde-web-admin',
       ],
       entry_points={
           'console_scripts': [
-              'lafeeclotilde-admin-web = app:main'
+              'lafeeclotilde-admin = app:main'
           ],
       },
       classifiers=[
