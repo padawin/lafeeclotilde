@@ -7,7 +7,13 @@ import socket_handler
 
 
 def main():
-    container = WSGIContainer(factory.create_app())
+    container = WSGIContainer(
+        factory.create_app(
+            'lafeeclotilde_admin',
+            'LAFEECLOTILDE_ADMIN_SETTINGS',
+            template_folder='templates'
+        )
+    )
     server = Application(
         [
             (r'/websocket/', socket_handler.WebSocket),

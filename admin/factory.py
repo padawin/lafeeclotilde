@@ -4,11 +4,11 @@ from werkzeug.utils import find_modules, import_string
 import http.client as http_client
 
 
-def create_app():
-    app = Flask('lafeeclotilde_admin_web', template_folder='templates')
+def create_app(name, settings, **kwargs):
+    app = Flask(name, **kwargs)
 
     app.config.update({})
-    app.config.from_envvar('LAFEECLOTILDE_ADMIN_SETTINGS', silent=True)
+    app.config.from_envvar(settings, silent=True)
 
     logger = logging.getLogger("{} logger".format(app.name))
     logger.setLevel(logging.DEBUG)
