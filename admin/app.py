@@ -14,7 +14,8 @@ def main():
         factory.create_app(
             'lafeeclotilde_admin',
             'LAFEECLOTILDE_ADMIN_SETTINGS',
-            template_folder=f'/{project_path}/templates'
+            template_folder=f'/{project_path}/templates',
+            static_folder=f'/{project_path}/static'
         )
     )
     server = Application(
