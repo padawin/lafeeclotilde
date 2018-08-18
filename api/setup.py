@@ -11,6 +11,7 @@ setup(name='lafeeclotilde-api',
       license='MIT',
       install_requires=[
           'flask',
+          'flask-cors',
           'tornado'
       ],
       entry_points={
