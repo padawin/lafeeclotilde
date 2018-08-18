@@ -1,5 +1,6 @@
 import logging
 from flask import Flask
+from flask_cors import CORS
 from werkzeug.utils import find_modules, import_string
 import http.client as http_client
 
@@ -16,6 +17,7 @@ def create_app(name, settings, **kwargs):
 
     register_blueprints(app)
     register_logger()
+    register_cors(app)
 
     return app
 
@@ -30,6 +32,10 @@ def register_blueprints(app):
         if hasattr(mod, 'bp'):
             app.register_blueprint(mod.bp)
     return None
+
+
+def register_cors(app):
+    CORS(app, origins=app.config['CORS_ORIGINS'])
 
 
 def register_logger():
