@@ -2,6 +2,9 @@ import json
 
 
 class Controller(object):
+    def __init__(self, config):
+        self.config = config
+
     def format_response(self, response):
         if isinstance(response, str):
             return response
