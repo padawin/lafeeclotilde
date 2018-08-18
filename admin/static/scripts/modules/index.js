@@ -18,6 +18,12 @@ loader.executeModule('indexAdminModule',
 	}
 
 	function sendFile(file) {
+		var formData = new FormData();
+		var request = new XMLHttpRequest();
+
+		formData.set('file', file);
+		request.open("POST", config.api_host + '/picture');
+		request.send(formData);
 	};
 
 	function submitEvent(e) {
