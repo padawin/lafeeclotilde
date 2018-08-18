@@ -9,7 +9,7 @@ class PictureController(Controller):
             return self.format_response({'error': "Aucun fichier reçu"}), 400
 
         file = request.files['file']
-        service = PictureService()
+        service = PictureService(self.config)
         res = service.save(file)
         body, status = self.create_response(res, {
             PictureSaveResult.OK: {},
