@@ -10,7 +10,7 @@ class Controller(object):
     def format_response(self, response):
         if isinstance(response, dict) or isinstance(response, list):
             response = json.dumps(response)
-        response = Response(response)
+        response = Response(response, mimetype='application/json')
         response.headers['Access-Control-Allow-Origin'] = (
             self.config['CORS_ORIGINS']
         )
