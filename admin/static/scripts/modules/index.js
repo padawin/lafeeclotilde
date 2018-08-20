@@ -16,18 +16,45 @@ loader.executeModule('indexAdminModule',
 		fileList.forEach(function (file, index) {
 			const picHTML = B.Template.compile(
 				'pictureProgress',
-				{imgName: file.name}
+				{imgName: file.name, imgIndex: index}
 			);
 			fileListDisplay.innerHTML += picHTML;
 		});
 	}
 
-	function sendFile(file) {
+	function sendFile(file, fileIndex) {
+		function transferComplete(event) {
+			const status = event.target.status;
+			B.addClass('img-wait-' + fileIndex, 'hidden');
+			if (200 <= status && status <= 299) {
+				B.removeClass('img-sent-' + fileIndex, 'hidden');
+			}
+			else {
+				B.removeClass('img-error-' + fileIndex, 'hidden');
+				let response;
+				try {
+					response = JSON.parse(event.target.response);
+				}
+				catch {
+					if (event.target.status == 413) {
+						response = {"message": "Fichier trop volumineux"};
+					}
+					else {
+						response = {"message": "Erreur inconnue"};
+					}
+				}
+				B.$id("img-error-message-" + fileIndex).innerHTML = response.message || "Erreur inconnue";
+			}
+		}
+
+		B.removeClass('img-wait-' + fileIndex, 'hidden');
 		var formData = new FormData();
 		var request = new XMLHttpRequest();
+		request.open("POST", config.api_host + '/picture');
+
+		request.addEventListener("load", transferComplete);
 
 		formData.set('file', file);
-		request.open("POST", config.api_host + '/picture');
 		request.send(formData);
 	};
 
@@ -37,8 +64,8 @@ loader.executeModule('indexAdminModule',
 			errorField.innerHTML = "Aucun fichier détecté"
 			return;
 		}
-		fileList.forEach(function (file) {
-			sendFile(file);
+		fileList.forEach(function (file, index) {
+			sendFile(file, index);
 		});
 	}
 
