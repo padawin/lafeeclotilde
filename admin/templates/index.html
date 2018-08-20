@@ -7,6 +7,13 @@
 </form>
 
 <div id="file-list-display"></div>
+
+<!-- Template for the link to a game -->
+<script type="template" id="picture-progress">
+	<div class="imgUpload">
+		<span>[[imgName]]</span>
+	</div>
+</script>
 {% endblock %}
 {% block scripts %}
 	<script type="text/javascript" src="{{ url_for('static', filename='scripts/modules/index.js') }}"></script>

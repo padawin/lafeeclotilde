@@ -7,13 +7,18 @@ loader.executeModule('indexAdminModule',
 
 	var fileList = [];
 
+	B.Template.init({
+		pictureProgress: {html: B.$id('picture-progress').innerHTML}
+	});
 
 	function renderFileList() {
 		fileListDisplay.innerHTML = '';
 		fileList.forEach(function (file, index) {
-			var fileDisplayEl = document.createElement('p');
-			fileDisplayEl.innerHTML = (index + 1) + ': ' + file.name;
-			fileListDisplay.appendChild(fileDisplayEl);
+			const picHTML = B.Template.compile(
+				'pictureProgress',
+				{imgName: file.name}
+			);
+			fileListDisplay.innerHTML += picHTML;
 		});
 	}
 
