@@ -23,6 +23,20 @@ loader.executeModule('indexAdminModule',
 	}
 
 	function sendFile(file, fileIndex) {
+		// progress on transfers from the server to the client (downloads)
+		function updateProgress (oEvent) {
+			if (oEvent.lengthComputable) {
+				var percentComplete = oEvent.loaded / oEvent.total * 100;
+				percentComplete = parseInt(percentComplete / 10) * 10;
+				B.replaceClass(
+					'upload-progress-img-' + fileIndex,
+					'upload-progress-' + (percentComplete - 10),
+					'upload-progress-' + percentComplete,
+					true
+				);
+			}
+		}
+
 		function transferComplete(event) {
 			const status = event.target.status;
 			B.addClass('img-wait-' + fileIndex, 'hidden');
@@ -52,6 +66,7 @@ loader.executeModule('indexAdminModule',
 		var request = new XMLHttpRequest();
 		request.open("POST", config.api_host + '/picture');
 
+		request.addEventListener("progress", updateProgress);
 		request.addEventListener("load", transferComplete);
 
 		formData.set('file', file);

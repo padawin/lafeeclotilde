@@ -1,3 +1,26 @@
 .hidden {
 	display: none;
 }
+
+.upload-progress-wrapper {
+	border: 1px black solid;
+	height: 17px;
+	width: 200px;
+}
+
+.upload-progress {
+	width: 0%;
+	height: 17px;
+	background-color: black;
+}
+
+.upload-progress-10 { width: 10%; }
+.upload-progress-20 { width: 20%; }
+.upload-progress-30 { width: 30%; }
+.upload-progress-40 { width: 40%; }
+.upload-progress-50 { width: 50%; }
+.upload-progress-60 { width: 60%; }
+.upload-progress-70 { width: 70%; }
+.upload-progress-80 { width: 80%; }
+.upload-progress-90 { width: 90%; }
+.upload-progress-100 { width: 100%; }
