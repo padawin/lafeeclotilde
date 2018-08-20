@@ -1,11 +1,25 @@
 {% extends "layout.html" %}
 {% block body %}
 <form id="file-catcher">
+	<div id="upload-error"></div>
 	<input id="file-input" type="file" multiple/>
 	<button type="submit">Submit</button>
 </form>
 
 <div id="file-list-display"></div>
+
+<!-- Template for the link to a game -->
+<script type="template" id="picture-progress">
+	<div class="imgUpload">
+		<span>[[imgName]]</span>
+		<div class="upload-progress-wrapper"><div class="upload-progress"
+id="upload-progress-img-[[imgIndex]]"></div></div>
+		<i class="fas fa-hourglass-half hidden" id="img-wait-[[imgIndex]]"></i>
+		<i class="fas fa-check hidden" id="img-sent-[[imgIndex]]"></i>
+		<i class="fas fa-times hidden" id="img-error-[[imgIndex]]"></i>
+		<span class="error" id="img-error-message-[[imgIndex]]"></span>
+	</div>
+</script>
 {% endblock %}
 {% block scripts %}
 	<script type="text/javascript" src="{{ url_for('static', filename='scripts/modules/index.js') }}"></script>
