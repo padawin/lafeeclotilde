@@ -20,6 +20,13 @@ setup(name='lafeeclotilde-api',
               'lafeeclotilde-api = app:main'
           ],
       },
+      packages=[
+          '.',
+          'blueprints',
+          'controller',
+          'model',
+          'service'
+      ],
       classifiers=[
           'License :: OSI Approved :: MIT License',
           'Environment :: Console',
