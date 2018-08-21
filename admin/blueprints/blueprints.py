@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, Response, current_app
 
 from controller.config import ConfigController
+from controller.pictures import PicturesController
 
 
 bp = Blueprint('lafeeclotilde', __name__)
@@ -18,3 +19,9 @@ def config():
         render_template('config.js', data=controller.get()),
         mimetype='application/javascript'
     )
+
+
+@bp.route('/photos')
+def photos():
+    controller = PicturesController()
+    return render_template('pictures.html', pictures=controller.get())
