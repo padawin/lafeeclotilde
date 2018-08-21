@@ -1,0 +1,39 @@
+version: '3'
+services:
+  postgres-lafeeclotilde:
+    image: postgres
+    container_name: db-lafeeclotilde
+    volumes:
+      - ./sql/:/tmp/data
+    ports:
+      - 5432:5432
+  admin:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      args:
+        app: admin
+    volumes:
+      - ./:/var/www/lafeeclotilde/
+    ports:
+      - 6100:6100
+    environment:
+      - FLASK_DEBUG=1
+      - LAFEECLOTILDE_ADMIN_SETTINGS=/var/www/lafeeclotilde/admin/config.cfg
+    command: lafeeclotilde-admin
+  api:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      args:
+        app: api
+    volumes:
+      - ./:/var/www/lafeeclotilde/
+    links:
+      - postgres-lafeeclotilde
+    ports:
+      - 6101:6101
+    environment:
+      - FLASK_DEBUG=1
+      - LAFEECLOTILDE_API_SETTINGS=/var/www/lafeeclotilde/api/config.cfg
+    command: lafeeclotilde-api
