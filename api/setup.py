@@ -12,13 +12,22 @@ setup(name='lafeeclotilde-api',
       install_requires=[
           'flask',
           'flask-cors',
-          'tornado'
+          'tornado',
+          'psycopg2-binary',
+          'Pillow'
       ],
       entry_points={
           'console_scripts': [
               'lafeeclotilde-api = app:main'
           ],
       },
+      packages=[
+          '.',
+          'blueprints',
+          'controller',
+          'model',
+          'service'
+      ],
       classifiers=[
           'License :: OSI Approved :: MIT License',
           'Environment :: Console',

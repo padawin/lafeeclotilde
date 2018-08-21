@@ -18,6 +18,13 @@ setup(name='lafeeclotilde-admin',
               'lafeeclotilde-admin = app:main'
           ],
       },
+      packages=[
+          '.',
+          'blueprints',
+          'controller',
+          'static',
+          'templates'
+      ],
       classifiers=[
           'License :: OSI Approved :: MIT License',
           'Environment :: Console',

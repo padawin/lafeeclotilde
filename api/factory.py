@@ -1,8 +1,10 @@
 import logging
-from flask import Flask
+from flask import Flask, current_app, abort
 from flask_cors import CORS
 from werkzeug.utils import find_modules, import_string
 import http.client as http_client
+
+from model import model
 
 
 def create_app(name, settings, **kwargs):
@@ -15,6 +17,7 @@ def create_app(name, settings, **kwargs):
     logger.setLevel(logging.DEBUG)
     logging.info("starting server")
 
+    register_setup(app)
     register_blueprints(app)
     register_logger()
     register_cors(app)
@@ -45,3 +48,32 @@ def register_logger():
     requests_log = logging.getLogger("requests.packages.urllib3")
     requests_log.setLevel(logging.DEBUG)
     requests_log.propagate = True
+
+
+def register_setup(app):
+    @app.before_request
+    def get_db():
+        logging.info("Creating DB connection")
+        try:
+            model.Model.connect("dbname={} user={} host={} password={}".format(
+                current_app.config['DATABASE_NAME'],
+                current_app.config['DATABASE_USER'],
+                current_app.config['DATABASE_HOST'],
+                current_app.config['DATABASE_PASSWORD']
+            ))
+        except model.ConnectionError as e:
+            logging.error(
+                "Failed connecting to database {} at {} with: {}".format(
+                    current_app.config['DATABASE_NAME'],
+                    current_app.config['DATABASE_HOST'],
+                    str(e)
+                )
+            )
+            abort(500)
+
+
+def register_teardowns(app):
+    @app.teardown_appcontext
+    def close_db(error):
+        logging.info("Disconnecting DB connection")
+        model.Model.disconnect()
