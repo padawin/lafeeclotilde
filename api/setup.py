@@ -13,7 +13,8 @@ setup(name='lafeeclotilde-api',
           'flask',
           'flask-cors',
           'tornado',
-          'psycopg2-binary'
+          'psycopg2-binary',
+          'Pillow'
       ],
       entry_points={
           'console_scripts': [
