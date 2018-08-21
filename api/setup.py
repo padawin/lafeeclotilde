@@ -12,7 +12,8 @@ setup(name='lafeeclotilde-api',
       install_requires=[
           'flask',
           'flask-cors',
-          'tornado'
+          'tornado',
+          'psycopg2-binary'
       ],
       entry_points={
           'console_scripts': [
