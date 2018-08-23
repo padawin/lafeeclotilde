@@ -8,11 +8,11 @@ bp = Blueprint('lafeeclotilde', __name__)
 
 
 @bp.route('/')
-def index():
+def index(methods=['GET']):
     return render_template('index.html')
 
 
-@bp.route('/config.js')
+@bp.route('/config.js', methods=['GET'])
 def config():
     controller = ConfigController(current_app.config)
     return Response(
@@ -21,7 +21,7 @@ def config():
     )
 
 
-@bp.route('/photos')
+@bp.route('/photos', methods=['GET'])
 def photos():
     controller = PicturesController()
     return render_template('pictures.html', pictures=controller.get())
