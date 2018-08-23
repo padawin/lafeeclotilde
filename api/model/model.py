@@ -165,10 +165,10 @@ class Model(object):
         return row
 
     @classmethod
-    def loadAll(cls, fields=None, order_fields={}):
+    def loadAll(cls, fields=None, order_fields=None):
         fields = cls.prepareFieldsForSelect(fields)
         order = ''
-        if len(order_fields):
+        if isinstance(order_fields, dict):
             order = 'ORDER BY {}'.format(
                 ', '.join("{} {}".format(field, way)
                           for field, way in order_fields.items())
