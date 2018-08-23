@@ -23,5 +23,5 @@ def config():
 
 @bp.route('/photos', methods=['GET'])
 def photos():
-    controller = PicturesController()
+    controller = PicturesController(current_app.config)
     return render_template('pictures.html', pictures=controller.get())
