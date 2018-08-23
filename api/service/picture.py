@@ -78,3 +78,13 @@ class PictureService(picture.PictureService):
         file_path = os.path.join(directory, f"{file_hash}-{id}-{filename}")
         file.save(file_path)
         return file_hash, file_path
+
+    def get_all(self):
+        pictures = PictureModel.loadAll()
+        for picture in pictures:
+            picture['date_created'] = (
+                picture['date_created'].isoformat()
+                if picture['date_created'] else
+                ''
+            )
+        return pictures

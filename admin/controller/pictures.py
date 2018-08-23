@@ -4,4 +4,6 @@ from service.picture import PictureService
 
 class PicturesController(Controller):
     def get(self):
-        return []
+        service = PictureService(self.config)
+        pictures = service.get_all()
+        return pictures

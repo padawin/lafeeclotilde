@@ -11,7 +11,8 @@ setup(name='lafeeclotilde-admin',
       license='MIT',
       install_requires=[
           'flask',
-          'tornado'
+          'tornado',
+          'requests'
       ],
       entry_points={
           'console_scripts': [
