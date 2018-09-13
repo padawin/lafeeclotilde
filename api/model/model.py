@@ -165,7 +165,7 @@ class Model(object):
         return row
 
     @classmethod
-    def loadAll(cls, fields=None, order_fields=None):
+    def loadAll(cls, fields=None, order_fields=None, **kwargs):
         fields = cls.prepareFieldsForSelect(fields)
         order = ''
         if isinstance(order_fields, dict):
@@ -174,13 +174,30 @@ class Model(object):
                           for field, way in order_fields.items())
             )
 
+        extra = []
+        try:
+            offset = int(kwargs.get('offset'))
+            extra.append('OFFSET {}'.format(offset))
+        except (TypeError, ValueError):
+            offset = None
+        try:
+            limit = int(kwargs.get('limit'))
+            extra.append('LIMIT {}'.format(limit))
+        except (TypeError, ValueError):
+            limit = None
         query = """
             SELECT
                 %(fields)s
             FROM
                 %(table)s
             %(order)s
-        """ % {'fields': fields, 'table': cls.getClass(), 'order': order}
+            %(extra)s
+        """ % {
+            'fields': fields,
+            'table': cls.getClass(),
+            'order': order,
+            'extra': " ".join(extra)
+        }
 
         return cls.fetchAllRows(query)
 

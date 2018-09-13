@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, Response, current_app
+from flask import Blueprint, render_template, Response, current_app, request
 
 from controller.config import ConfigController
 from controller.pictures import PicturesController
@@ -23,8 +23,12 @@ def config():
 
 @bp.route('/photos', methods=['GET'])
 def photos():
+    try:
+        page = int(request.args.get('page', 1))
+    except ValueError:
+        page = 1
     controller = PicturesController(current_app.config)
     return render_template(
         'pictures.html',
-        pictures=controller.get()
+        pictures=controller.get(page)
     )

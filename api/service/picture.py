@@ -79,8 +79,8 @@ class PictureService(picture.PictureService):
         file.save(file_path)
         return file_hash, file_path
 
-    def get_all(self):
-        pictures = PictureModel.loadAll()
+    def get_all(self, offset, limit):
+        pictures = PictureModel.loadAll(limit=limit, offset=offset)
         for picture in pictures:
             picture['date_created'] = (
                 picture['date_created'].isoformat()
