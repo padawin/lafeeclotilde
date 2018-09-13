@@ -8,6 +8,7 @@ services:
     ports:
       - 5432:5432
   admin:
+    container_name: admin-lafeeclotilde
     build:
       context: .
       dockerfile: ./Dockerfile
