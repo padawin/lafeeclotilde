@@ -208,6 +208,21 @@ class Model(object):
             return None
 
     @classmethod
+    def count(cls):
+        table = cls.getClass()
+        query = """
+            SELECT
+                count(1) AS count
+            FROM
+                %(table)s
+        """ % {'table': table}
+
+        try:
+            return cls.fetchOneRow(query)['count']
+        except psycopg2.DataError:
+            return None
+
+    @classmethod
     def loadBy(cls, filters, fields=None, order_fields={}):
         fields = cls.prepareFieldsForSelect(fields)
 
