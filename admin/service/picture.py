@@ -8,7 +8,7 @@ class PictureService:
 
     def get_all(self, first_picture, nb_pictures):
         url = "{host}{endpoint}".format(
-            host=self.config['API_HOST'], endpoint='/picture'
+            host=self.config['API_HOST'], endpoint='/pictures'
         )
         response = requests.request(
             'GET', url, params={'offset': first_picture, 'limit': nb_pictures}

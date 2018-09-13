@@ -13,7 +13,7 @@ def upload_file():
     return controller.post(request)
 
 
-@bp.route('/picture', methods=['GET'])
+@bp.route('/pictures', methods=['GET'])
 def get_pictures():
     controller = PicturesController(current_app.config)
     return controller.get(request)
