@@ -1,6 +1,5 @@
-import hashlib
-import json
 import os
+import json
 from enum import Enum, auto
 from PIL import Image, ExifTags
 import werkzeug
@@ -61,21 +60,16 @@ class PictureService(picture.PictureService):
         return exif_data
 
     def save_file(self, file, id):
-        filename = werkzeug.secure_filename(file.filename)
-        # generate image sha1
-        file_hash = hashlib.sha1(
-            f"{id}-{filename}".encode('ascii')
-        ).hexdigest()
-        # create the directory structure
-        n = 5
-        dir_structure = [file_hash[i:i+n] for i in range(0, len(file_hash), n)]
-        directory = os.path.join(
-            self.config['UPLOAD_DIRECTORY'], *dir_structure
+        file_name = werkzeug.secure_filename(file.filename)
+        directory, file_name, file_hash = self.get_storage_path(
+            {"id_picture": id, "file_name": file_name}
         )
+        directory = os.path.join(self.config['UPLOAD_DIRECTORY'], directory)
+        # create the directory structure
         if not os.path.exists(directory):
             os.makedirs(directory)
         # save the file
-        file_path = os.path.join(directory, f"{file_hash}-{id}-{filename}")
+        file_path = os.path.join(directory, file_name)
         file.save(file_path)
         return file_hash, file_path
 
