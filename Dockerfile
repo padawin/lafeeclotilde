@@ -6,5 +6,7 @@ WORKDIR /var/www/lafeeclotilde
 
 COPY . .
 
+RUN cd common && pip install -e .
+
 ARG app
 RUN cd $app && pip install -e .
