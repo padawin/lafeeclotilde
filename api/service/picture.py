@@ -8,13 +8,15 @@ import werkzeug
 from model.model import Model
 from model.picture import PictureModel
 
+from common.service import picture
+
 
 class PictureSaveResult(Enum):
     OK = auto()
     INVALID_PICTURE_TYPE = auto()
 
 
-class PictureService:
+class PictureService(picture.PictureService):
     _interesting_exif = {
         'DateTime', 'DateTimeDigitized', 'DateTimeOriginal',
         'DigitalZoomRatio', 'ExifImageHeight', 'ExifImageWidth',
