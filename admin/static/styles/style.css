@@ -3,6 +3,7 @@
 }
 
 .upload-progress-wrapper {
+	display: inline-block;
 	border: 1px black solid;
 	height: 17px;
 	width: 200px;
