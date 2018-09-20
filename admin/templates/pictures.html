@@ -3,6 +3,12 @@
 <section id="pictures">
 {% for picture in pictures %}
 	<div class="picture">
+		<img
+			width="200px"
+			height="200px"
+			src="{{image_url(200, 200, True, picture.url)}}"
+			alt="{{picture.file_name}}"
+		/>
 	</div>
 {% endfor %}
 </section>

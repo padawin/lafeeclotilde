@@ -11,4 +11,7 @@ class PicturesController(Controller):
         first_picture = (page - 1) * nb_pictures
         service = PictureService(self.config)
         pictures = service.get_all(first_picture, nb_pictures)
+        for picture in pictures:
+            directory, file_name, _ = service.get_storage_path(picture)
+            picture['url'] = f'{directory}/{file_name}'
         return pictures

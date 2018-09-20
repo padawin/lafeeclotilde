@@ -1,8 +1,10 @@
 import json
 import requests
 
+from common.service import picture
 
-class PictureService:
+
+class PictureService(picture.PictureService):
     def __init__(self, config):
         self.config = config
 
