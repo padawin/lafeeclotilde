@@ -50,9 +50,12 @@ class PictureService(picture.PictureService):
     @classmethod
     def _get_file_exif(cls, file_path):
         img = Image.open(file_path)
+        exifs = img._getexif()
+        if not exifs:
+            exifs = dict()
         exif_data = {
             ExifTags.TAGS[k]: str(v)
-            for k, v in img._getexif().items()
+            for k, v in exifs.items()
             if k in ExifTags.TAGS and ExifTags.TAGS[k] in cls._interesting_exif
         }
         return exif_data
