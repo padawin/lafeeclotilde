@@ -16,6 +16,7 @@ def create_app(name, settings, **kwargs):
 
     register_blueprints(app)
     register_logger()
+    register_jinja_helpers(app)
 
     return app
 
@@ -39,3 +40,11 @@ def register_logger():
     requests_log = logging.getLogger("requests.packages.urllib3")
     requests_log.setLevel(logging.DEBUG)
     requests_log.propagate = True
+
+
+def register_jinja_helpers(app):
+    def image_url(width, height, crop, path):
+        crop = 1 if crop else 0
+        return f'/images/{width}x{height}x{crop}/{path}'
+
+    app.jinja_env.globals.update(image_url=image_url)
