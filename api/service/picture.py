@@ -75,10 +75,11 @@ class PictureService(picture.PictureService):
 
     def get_all(self, offset, limit):
         pictures = PictureModel.loadAll(limit=limit, offset=offset)
+        total_count = PictureModel.count()
         for pic in pictures:
             pic['date_created'] = (
                 pic['date_created'].isoformat()
                 if pic['date_created'] else
                 ''
             )
-        return pictures
+        return pictures, total_count
