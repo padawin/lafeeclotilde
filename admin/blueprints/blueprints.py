@@ -28,7 +28,5 @@ def photos():
     except ValueError:
         page = 1
     controller = PicturesController(current_app.config)
-    return render_template(
-        'pictures.html',
-        pictures=controller.get(page)
-    )
+    res = controller.get(page)
+    return render_template('pictures.html', **res)

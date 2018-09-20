@@ -1,5 +1,5 @@
 import logging
-from flask import Flask
+from flask import Flask, request, url_for
 from werkzeug.utils import find_modules, import_string
 import http.client as http_client
 
@@ -47,4 +47,12 @@ def register_jinja_helpers(app):
         crop = 1 if crop else 0
         return f'/images/{width}x{height}x{crop}/{path}'
 
-    app.jinja_env.globals.update(image_url=image_url)
+    def current_url_paginated(page=None):
+        args = request.view_args.copy()
+        args['page'] = page
+        return url_for(request.endpoint, **args)
+
+    app.jinja_env.globals.update(
+        image_url=image_url,
+        current_url_paginated=current_url_paginated
+    )
