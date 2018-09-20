@@ -8,6 +8,7 @@ services:
     ports:
       - 5432:5432
   admin:
+    container_name: admin-lafeeclotilde
     build:
       context: .
       dockerfile: ./Dockerfile
@@ -15,6 +16,8 @@ services:
         app: admin
     volumes:
       - ./:/var/www/lafeeclotilde/
+    links:
+      - api
     ports:
       - 6100:6100
     environment:
@@ -22,6 +25,7 @@ services:
       - LAFEECLOTILDE_ADMIN_SETTINGS=/var/www/lafeeclotilde/admin/config.cfg
     command: lafeeclotilde-admin
   api:
+    container_name: api-lafeeclotilde
     build:
       context: .
       dockerfile: ./Dockerfile

@@ -21,6 +21,7 @@ def create_app(name, settings, **kwargs):
     register_blueprints(app)
     register_logger()
     register_cors(app)
+    register_teardowns(app)
 
     return app
 

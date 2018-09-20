@@ -1,5 +1,5 @@
 import logging
-from flask import Flask
+from flask import Flask, request, url_for
 from werkzeug.utils import find_modules, import_string
 import http.client as http_client
 
@@ -16,6 +16,7 @@ def create_app(name, settings, **kwargs):
 
     register_blueprints(app)
     register_logger()
+    register_jinja_helpers(app)
 
     return app
 
@@ -39,3 +40,19 @@ def register_logger():
     requests_log = logging.getLogger("requests.packages.urllib3")
     requests_log.setLevel(logging.DEBUG)
     requests_log.propagate = True
+
+
+def register_jinja_helpers(app):
+    def image_url(width, height, crop, path):
+        crop = 1 if crop else 0
+        return f'/images/{width}x{height}x{crop}/{path}'
+
+    def current_url_paginated(page=None):
+        args = request.view_args.copy()
+        args['page'] = page
+        return url_for(request.endpoint, **args)
+
+    app.jinja_env.globals.update(
+        image_url=image_url,
+        current_url_paginated=current_url_paginated
+    )
