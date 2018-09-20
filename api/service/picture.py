@@ -75,10 +75,10 @@ class PictureService(picture.PictureService):
 
     def get_all(self, offset, limit):
         pictures = PictureModel.loadAll(limit=limit, offset=offset)
-        for picture in pictures:
-            picture['date_created'] = (
-                picture['date_created'].isoformat()
-                if picture['date_created'] else
+        for pic in pictures:
+            pic['date_created'] = (
+                pic['date_created'].isoformat()
+                if pic['date_created'] else
                 ''
             )
         return pictures
