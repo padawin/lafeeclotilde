@@ -15,7 +15,7 @@ class PicturesController(Controller):
         service = PictureService(self.config)
         pictures = service.get_all(first_picture, nb_pictures)
         for picture in pictures['pictures']:
-            directory, file_name, _ = service.get_storage_path(picture)
+            directory, file_name = service.get_storage_path(picture)
             picture['url'] = f'{directory}/{file_name}'
 
         pagination = Pagination(

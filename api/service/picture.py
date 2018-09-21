@@ -61,9 +61,8 @@ class PictureService(picture.PictureService):
 
     def save_file(self, file, id):
         file_name = werkzeug.secure_filename(file.filename)
-        directory, file_name, file_hash = self.get_storage_path(
-            {"id_picture": id, "file_name": file_name}
-        )
+        picture = {"id_picture": id, "file_name": file_name}
+        directory, file_name = self.get_storage_path(picture)
         directory = os.path.join(self.config['UPLOAD_DIRECTORY'], directory)
         # create the directory structure
         if not os.path.exists(directory):
@@ -71,7 +70,7 @@ class PictureService(picture.PictureService):
         # save the file
         file_path = os.path.join(directory, file_name)
         file.save(file_path)
-        return file_hash, file_path
+        return picture['hash'], file_path
 
     def get_all(self, offset, limit):
         pictures = PictureModel.loadAll(limit=limit, offset=offset)
