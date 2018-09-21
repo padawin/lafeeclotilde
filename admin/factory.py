@@ -45,7 +45,7 @@ def register_logger():
 def register_jinja_helpers(app):
     def image_url(width, height, crop, path):
         crop = 1 if crop else 0
-        return f'/images/{width}x{height}x{crop}/{path}'
+        return f'/static/images/resized/{width}x{height}x{crop}/{path}'
 
     def current_url_paginated(page=None):
         args = request.view_args.copy()
