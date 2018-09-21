@@ -37,3 +37,9 @@
 .upload-progress-90 { width: 90%; }
 .upload-progress-100 { width: 100%; }
 /* End Picture upload section */
+
+/* Pictures section */
+#pictures .picture {
+	display: inline-block;
+}
+/* End Pictures section */
