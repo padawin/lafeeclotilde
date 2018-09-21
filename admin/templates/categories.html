@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% block body %}
+<form id="create-category">
+	<input type="text" name="name" />
+	<input type="submit" value="Creer" name="create" />
+</form>
+<section id="categories">
+{% for category in categories %}
+	<div class="category">
+		{{category['name']}}
+		<i class="edit-category-button fas fa-pen" id="edit-category-{{category['id_category']}}"></i>
+		<i class="fas fa-times" id="delete-category-{{category['id_category']}}"></i>
+	</div>
+{% endfor %}
+</section>
+{% endblock %}

@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, Response, current_app, request
 
+from controller.categories import CategoriesController
 from controller.config import ConfigController
 from controller.pictures import PicturesController
 
@@ -19,6 +20,13 @@ def config():
         render_template('config.js', data=controller.get()),
         mimetype='application/javascript'
     )
+
+
+@bp.route('/categories', methods=['GET'])
+def categories():
+    controller = CategoriesController()
+    res = controller.get()
+    return render_template('categories.html', **res)
 
 
 @bp.route('/photos', methods=['GET'])
