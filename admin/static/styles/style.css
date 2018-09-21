@@ -2,6 +2,17 @@
 	display: none;
 }
 
+.progress {
+	color: orange;
+}
+.success {
+	color: green;
+}
+.error {
+	color: red;
+}
+
+/* Picture upload section */
 .upload-progress-wrapper {
 	display: inline-block;
 	border: 1px black solid;
@@ -25,3 +36,4 @@
 .upload-progress-80 { width: 80%; }
 .upload-progress-90 { width: 90%; }
 .upload-progress-100 { width: 100%; }
+/* End Picture upload section */
