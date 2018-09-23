@@ -45,6 +45,7 @@ loader.executeModule('indexAdminModule',
 			}
 			else {
 				B.removeClass('img-error-' + fileIndex, 'hidden');
+				B.removeClass('img-error-message-' + fileIndex, 'hidden');
 				let response;
 				try {
 					response = JSON.parse(event.target.response);
@@ -61,6 +62,13 @@ loader.executeModule('indexAdminModule',
 			}
 		}
 
+		B.addClass('img-sent-' + fileIndex, 'hidden');
+		B.addClass('img-error-' + fileIndex, 'hidden');
+		B.addClass('img-error-message-' + fileIndex, 'hidden');
+		B.replaceClass(
+			'upload-progress-img-' + fileIndex,
+			'upload-progress-100', 'upload-progress-0'
+		);
 		B.removeClass('img-wait-' + fileIndex, 'hidden');
 		var formData = new FormData();
 		var request = new XMLHttpRequest();
