@@ -29,7 +29,7 @@ class CategoryService:
         return CategorySaveResult.OK, None
 
     def get_all(self):
-        categories = CategoryModel.loadAll()
+        categories = CategoryModel.loadAll(order_fields={'id_category': 'asc'})
         for category in categories:
             category['date_created'] = (
                 category['date_created'].isoformat()

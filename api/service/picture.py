@@ -163,7 +163,9 @@ class PictureService(picture.PictureService):
             im.save(destination, "JPEG", quality=95, optimize=True)
 
     def get_all(self, offset, limit):
-        pictures = PictureModel.loadAll(limit=limit, offset=offset)
+        pictures = PictureModel.loadAll(
+            order_fields={'id_picture': 'desc'}, limit=limit, offset=offset
+        )
         total_count = PictureModel.count()
         for pic in pictures:
             pic['date_created'] = (
