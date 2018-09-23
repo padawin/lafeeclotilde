@@ -6,6 +6,12 @@ from service.category import CategoryService, CategorySaveResult
 
 class CategoryController(Controller):
     def post(self, request):
+        return self._save(request)
+
+    def put(self, request, id_category):
+        return self._save(request, id_category)
+
+    def _save(self, request, id_category=None):
         service = CategoryService()
         try:
             data = json.loads(request.data)
@@ -16,7 +22,7 @@ class CategoryController(Controller):
         except KeyError:
             return json.dumps({'error': 'Missing Category name'}), 400
 
-        res = service.save(name)
+        res = service.save(name, id_category)
         body, status = self.create_response(res, {
             CategorySaveResult.OK: {},
             CategorySaveResult.EMPTY_NAME: (

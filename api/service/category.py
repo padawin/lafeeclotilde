@@ -11,12 +11,18 @@ class CategorySaveResult(Enum):
 
 
 class CategoryService:
-    def save(self, name):
+    def save(self, name, id_category=None):
         name = name.strip()
         if not name:
             return CategorySaveResult.EMPTY_NAME, None
         try:
-            CategoryModel.insert({'name': name})
+            if id_category is None:
+                CategoryModel.insert({'name': name})
+            else:
+                CategoryModel.update(
+                    {'name': name},
+                    ('id_category = %s', [id_category])
+                )
         except DuplicateFieldError:
             return CategorySaveResult.DUPLICATED_NAME, None
         Model.commit()
