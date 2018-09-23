@@ -28,6 +28,10 @@ class CategoryService:
         Model.commit()
         return CategorySaveResult.OK, None
 
+    def delete(self, id_category):
+        CategoryModel.delete(('id_category = %s', [id_category]))
+        Model.commit()
+
     def get_all(self):
         categories = CategoryModel.loadAll(order_fields={'id_category': 'asc'})
         for category in categories:

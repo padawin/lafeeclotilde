@@ -48,11 +48,25 @@ loader.executeModule('categoriesAdminModule',
 		_saveCategory(categoryNameField, '/category/' + id_category, 'PUT', false);
 	}
 
+	function deleteCategory(id_category) {
+		var request = new XMLHttpRequest();
+		request.open('DELETE', config.api_host + '/category/' + id_category);
+		request.addEventListener("load", function() {
+			window.location.reload();
+		});
+		request.send();
+	}
+
 	function clickCategory(e) {
 		if (B.hasClass(e.target, 'show-edit-category')) {
 			B.addClass(e.target, 'hidden');
 			B.addClass('category-name-' + e.target.dataset.idCategory, 'hidden');
 			B.removeClass('edit-category-' + e.target.dataset.idCategory, 'hidden');
+		}
+		else if (B.hasClass(e.target, 'delete-category')) {
+			if (confirm("Supprimer la categorie?")) {
+				deleteCategory(e.target.dataset.idCategory);
+			}
 		}
 	}
 

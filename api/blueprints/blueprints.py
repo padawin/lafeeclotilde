@@ -33,6 +33,12 @@ def update_category(id_category):
     return controller.put(request, id_category)
 
 
+@bp.route('/category/<int:id_category>', methods=['DELETE'])
+def delete_category(id_category):
+    controller = CategoryController(current_app.config)
+    return controller.delete(request, id_category)
+
+
 @bp.route('/categories', methods=['GET'])
 def get_categories():
     controller = CategoriesController(current_app.config)

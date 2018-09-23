@@ -11,6 +11,11 @@ class CategoryController(Controller):
     def put(self, request, id_category):
         return self._save(request, id_category)
 
+    def delete(self, request, id_category):
+        service = CategoryService()
+        service.delete(id_category)
+        return self.format_response(dict()), 200
+
     def _save(self, request, id_category=None):
         service = CategoryService()
         try:
