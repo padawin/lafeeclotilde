@@ -24,7 +24,7 @@ def config():
 
 @bp.route('/categories', methods=['GET'])
 def categories():
-    controller = CategoriesController()
+    controller = CategoriesController(current_app.config)
     res = controller.get()
     return render_template('categories.html', **res)
 

@@ -1,10 +1,14 @@
+import json
+import requests
+
+
 class CategoryService:
-    @staticmethod
-    def get_all():
-        return {
-            'categories': [
-                {'id_category': 1, 'name': 'portraits'},
-                {'id_category': 2, 'name': 'noir et blanc'},
-                {'id_category': 3, 'name': 'paysages'},
-            ]
-        }
+    def __init__(self, config):
+        self.config = config
+
+    def get_all(self):
+        url = "{host}{endpoint}".format(
+            host=self.config['API_HOST_BACKEND'], endpoint='/categories'
+        )
+        response = requests.request('GET', url)
+        return json.loads(response.content)

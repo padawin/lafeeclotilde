@@ -1,7 +1,9 @@
 {% extends "layout.html" %}
 {% block body %}
-<form id="create-category">
-	<input type="text" name="name" />
+<form id="create-category" method="POST">
+	<input type="text" id="category-name" name="name" />
+	<span class="error" id="error-message"></span>
+	<br/>
 	<input type="submit" value="Creer" name="create" />
 </form>
 <section id="categories">
@@ -13,4 +15,7 @@
 	</div>
 {% endfor %}
 </section>
+{% endblock %}
+{% block scripts %}
+	<script type="text/javascript" src="{{ url_for('static', filename='scripts/modules/categories.js') }}"></script>
 {% endblock %}
