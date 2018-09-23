@@ -5,11 +5,13 @@ loader.executeModule('categoriesAdminModule',
 	var categories = document.getElementById('categories');
 	var editCategForms = document.getElementsByClassName('edit-category');
 
-	function _saveCategory(categoryNameField) {
+	function _saveCategory(categoryNameField, url, method, resetForm) {
 		function transferComplete(event) {
 			const status = event.target.status;
 			if (200 <= status && status <= 299) {
-				categoryNameField.value = '';
+				if (resetForm) {
+					categoryNameField.value = '';
+				}
 				window.location.reload();
 				return;
 			}
@@ -32,18 +34,37 @@ loader.executeModule('categoriesAdminModule',
 
 		B.addClass('error-message', 'hidden');
 		var request = new XMLHttpRequest();
-		request.open("POST", config.api_host + '/category');
+		request.open(method, config.api_host + url);
 
 		request.addEventListener("load", transferComplete);
 		request.send(JSON.stringify({'name': categoryNameField.value}));
 	};
 
 	function createCategory(categoryNameField) {
-		_saveCategory(categoryNameField, 'POST');
+		_saveCategory(categoryNameField, '/category', 'POST', true);
+	}
+
+	function editCategory(categoryNameField, id_category) {
+		_saveCategory(categoryNameField, '/category/' + id_category, 'PUT', false);
+	}
+
+	function clickCategory(e) {
+		if (B.hasClass(e.target, 'show-edit-category')) {
+			B.addClass(e.target, 'hidden');
+			B.addClass('category-name-' + e.target.dataset.idCategory, 'hidden');
+			B.removeClass('edit-category-' + e.target.dataset.idCategory, 'hidden');
+		}
 	}
 
 	createCategoryForm.addEventListener('submit', function (e) {
 		e.preventDefault();
 		createCategory(createCategoryForm.name);
 	});
+	categories.addEventListener('click', clickCategory);
+	for (var form of editCategForms) {
+		form.addEventListener('submit', function (e) {
+			e.preventDefault();
+			editCategory(e.target.name, e.target.id_category.value);
+		});
+	}
 });

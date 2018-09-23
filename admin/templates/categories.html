@@ -9,9 +9,14 @@
 <section id="categories">
 {% for category in categories %}
 	<div class="category">
-		{{category['name']}}
-		<i class="edit-category-button fas fa-pen" id="edit-category-{{category['id_category']}}"></i>
-		<i class="fas fa-times" id="delete-category-{{category['id_category']}}"></i>
+		<span id="category-name-{{category['id_category']}}">{{category['name']}}</span>
+		<form id="edit-category-{{category['id_category']}}" method="PUT" class="edit-category hidden">
+			<input type="text" id="category-name" name="name" value="{{category['name']}}" />
+			<input type="hidden" name="id_category" value="{{category['id_category']}}" />
+			<span class="error" id="error-message"></span>
+			<input type="submit" value="Mettre a jour" name="update" />
+		</form>
+		<i class="show-edit-category fas fa-pen" data-id-category="{{category['id_category']}}"></i>
 	</div>
 {% endfor %}
 </section>
