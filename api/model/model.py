@@ -122,7 +122,14 @@ class Model(object):
                      'values': ','.join(fieldsNames),
                      'where': where[0]
                  })
-        c.execute(query, list(fields.values()) + where[1])
+        try:
+            c.execute(query, list(fields.values()) + where[1])
+        except psycopg2.IntegrityError:
+            raise DuplicateFieldError()
+        except psycopg2.DataError:
+            raise InvalidDataError()
+        except psycopg2.ProgrammingError:
+            raise InvalidDataError()
 
     @classmethod
     def delete(cls, where):
