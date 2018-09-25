@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+{% block body %}
+<form id="create-category" method="POST">
+	<input type="text" id="category-name" name="name" />
+	<span class="error" id="error-message"></span>
+	<br/>
+	<input type="submit" value="Creer" name="create" />
+</form>
+<section id="categories">
+{% for category in categories %}
+	<div class="category" id="category-{{category['id_category']}}">
+		<span>{{category['name']}}</span>
+		<i class="control show-edit-category fas fa-pen" data-id-category="{{category['id_category']}}"></i>
+		<i class="control delete-category fas fa-times" data-id-category="{{category['id_category']}}"></i>
+	</div>
+	<div class="edit-category hidden" id="edit-category-{{category['id_category']}}">
+		<form id="edit-category-form-{{category['id_category']}}" method="PUT">
+			<input type="text" id="category-name" name="name" value="{{category['name']}}" />
+			<input type="hidden" name="id_category" value="{{category['id_category']}}" />
+			<span class="error" id="error-message"></span>
+			<i class="control edit-category fas fa-check" data-id-category="{{category['id_category']}}"></i>
+			<i class="control cancel-edit-category fas fa-times" data-id-category="{{category['id_category']}}"></i>
+		</form>
+	</div>
+{% endfor %}
+</section>
+{% endblock %}
+{% block scripts %}
+	<script type="text/javascript" src="{{ url_for('static', filename='scripts/modules/categories.js') }}"></script>
+{% endblock %}

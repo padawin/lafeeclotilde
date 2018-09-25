@@ -1,5 +1,5 @@
 .hidden {
-	display: none;
+	display: none !important;
 }
 
 .progress {
@@ -43,3 +43,17 @@
 	display: inline-block;
 }
 /* End Pictures section */
+
+/* Categories section */
+#categories .control {
+	cursor: pointer;
+}
+
+#categories .show-edit-category, #categories .edit-category {
+	color: green;
+}
+
+#categories .delete-category, #categories .cancel-edit-category {
+	color: red;
+}
+/* End Categories section */
