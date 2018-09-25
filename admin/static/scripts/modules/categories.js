@@ -59,9 +59,18 @@ loader.executeModule('categoriesAdminModule',
 
 	function clickCategory(e) {
 		if (B.hasClass(e.target, 'show-edit-category')) {
-			B.addClass(e.target, 'hidden');
-			B.addClass('category-name-' + e.target.dataset.idCategory, 'hidden');
+			B.addClass('category-' + e.target.dataset.idCategory, 'hidden');
 			B.removeClass('edit-category-' + e.target.dataset.idCategory, 'hidden');
+		}
+		else if (B.hasClass(e.target, 'cancel-edit-category')) {
+			B.addClass('edit-category-' + e.target.dataset.idCategory, 'hidden');
+			B.removeClass('category-' + e.target.dataset.idCategory, 'hidden');
+		}
+		else if (B.hasClass(e.target, 'edit-category')) {
+			var form = document.getElementById(
+				'edit-category-form-'+ e.target.dataset.idCategory
+			);
+			editCategory(form.name, form.id_category.value);
 		}
 		else if (B.hasClass(e.target, 'delete-category')) {
 			if (confirm("Supprimer la categorie?")) {
