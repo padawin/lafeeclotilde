@@ -1,5 +1,6 @@
-import os
+import errno
 import json
+import os
 from enum import Enum, auto
 from PIL import Image, ExifTags
 import werkzeug
@@ -32,17 +33,14 @@ class PictureService(picture.PictureService):
     def save(self, file):
         if file.mimetype != 'image/jpeg':
             return PictureSaveResult.INVALID_PICTURE_TYPE, None
-        picture_id = PictureModel.insert({
-            'file_name': file.filename,
-        })
-        file_hash, file_path = self.save_file(file, picture_id)
-        PictureModel.update(
-            {
-                'hash': file_hash,
-                'exif': json.dumps(self._get_file_exif(file_path))
-            },
-            ['id_picture = %s', [picture_id]]
-        )
+        file_name = werkzeug.secure_filename(file.filename)
+        picture = {"file_name": file_name}
+        picture["id_picture"] = picture_id = PictureModel.insert(picture)
+        directory, file_name = self.get_storage_path(picture)
+        relative_file_path = os.path.join(directory, file_name)
+        file_path = self.save_file(file, relative_file_path)
+        picture['exif'] = json.dumps(self._get_file_exif(file_path))
+        PictureModel.update(picture, ['id_picture = %s', [picture_id]])
         Model.commit()
         return PictureSaveResult.OK, None
 
@@ -59,18 +57,26 @@ class PictureService(picture.PictureService):
         }
         return exif_data
 
-    def save_file(self, file, id):
-        file_name = werkzeug.secure_filename(file.filename)
-        picture = {"id_picture": id, "file_name": file_name}
-        directory, file_name = self.get_storage_path(picture)
-        directory = os.path.join(self.config['UPLOAD_DIRECTORY'], directory)
-        # create the directory structure
-        if not os.path.exists(directory):
-            os.makedirs(directory)
+    @staticmethod
+    def _create_dir(file_path):
+        dirname = os.path.dirname(file_path)
+        if os.path.exists(dirname):
+            return
+
+        try:
+            os.makedirs(dirname)
+        except OSError as exc:  # Guard against race condition
+            if exc.errno != errno.EEXIST:
+                raise
+
+    def save_file(self, file, relative_file_path):
+        file_path = os.path.join(
+            self.config['UPLOAD_DIRECTORY'], relative_file_path
+        )
+        self._create_dir(file_path)
         # save the file
-        file_path = os.path.join(directory, file_name)
         file.save(file_path)
-        return picture['hash'], file_path
+        return file_path
 
     def get_all(self, offset, limit):
         pictures = PictureModel.loadAll(limit=limit, offset=offset)
